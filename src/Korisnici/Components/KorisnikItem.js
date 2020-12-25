@@ -28,3 +28,5 @@ const KorisnikItem = props => {
 };
 
 export default KorisnikItem;
+
+//KURAC PICKA SRANJE I JEBAVANJE
