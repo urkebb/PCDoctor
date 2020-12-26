@@ -22,11 +22,11 @@ const KorisnikItem = props => {
                 </div>
                       </Link> 
                 </Card>
-     
+  
         </li>
   );
 };
+//sdsdsjgsf
 
 export default KorisnikItem;
 
-//KURAC PICKA SRANJE I JEBAVANJE
