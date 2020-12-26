@@ -21,6 +21,7 @@ function App() {
     </main>
   </Router>
   );
+  //Kurac picka sranje i jebavanje
 }
 
 export default App;
