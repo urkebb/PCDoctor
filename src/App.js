@@ -2,10 +2,13 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 import Korisnici from './Korisnici/Pages/Korisnici';
 import NoviPost from './Postovi/Pages/NoviPost';
+import MainNavigation from './Shared/Components/Navigation/MainNavigation';
 
 function App() {
   return (
   <Router>
+    <MainNavigation />
+      <main>
     <Switch>
     <Route path="/" exact>
       <Korisnici />
@@ -15,6 +18,7 @@ function App() {
     </Route>
     <Redirect to="/" />
     </Switch>
+    </main>
   </Router>
   );
 }
