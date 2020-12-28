@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Card from '../../shared/components/UIElements/Card';
+import Card from '../../Shared/Components/UIElements/Card';
 import './PostItem.css';
 
 const PostItem = props => {

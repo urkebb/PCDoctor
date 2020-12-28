@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PlaceList from '../Components/PostList';
+import PostList from '../Components/PostList';
 
 const DUMMY_POSTS = [
   {
@@ -21,7 +21,7 @@ const DUMMY_POSTS = [
 
 const KorisnikPosts = () => {
 
-  return <PlaceList items={DUMMY_POSTS} />;
+  return <PostList items={DUMMY_POSTS} />;
 };
 
 export default KorisnikPosts;

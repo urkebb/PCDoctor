@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Card from '../../Shared/UIElements/Card';
-import postItem from './PostItem';
+import Card from '../../Shared/Components/UIElements/Card';
+import PostItem from './PostItem';
 import './PostList.css';
 
 const PostList = props => {
@@ -19,7 +19,7 @@ const PostList = props => {
   return (
     <ul className="post-list">
       {props.items.map(post => (
-        <postItem
+        <PostItem
           key={post.id}
           id={post.id}
           image={post.imageUrl}
