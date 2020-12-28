@@ -1,4 +1,5 @@
 import React from 'react';
+import {useParams} from 'react-router-dom';
 
 import PostList from '../Components/PostList';
 
@@ -20,8 +21,9 @@ const DUMMY_POSTS = [
 ];
 
 const KorisnikPosts = () => {
-
-  return <PostList items={DUMMY_POSTS} />;
+  const korisnikId = useParams().korisnikId;
+  const loadedPosts=DUMMY_POSTS.filter(post => post.creator === korisnikId); 
+  return <PostList items={loadedPosts} />;
 };
 
 export default KorisnikPosts;
