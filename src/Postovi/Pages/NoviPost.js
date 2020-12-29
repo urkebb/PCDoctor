@@ -53,8 +53,13 @@ const formReducer = (state, action) => {
       });
     }, []);
 
+    const placeSubmitHandler = event => {
+        event.preventDefault();
+        console.log(formState.inputs);
+    };
+
     return (
-        <form className="post-form">
+        <form className="post-form" onSubmit={placeSubmitHandler}>
             <Input
             id="title"
             element ="input" 
@@ -74,6 +79,7 @@ const formReducer = (state, action) => {
             onInput={inputHandler}
              />
 
+            <Button type="submit" disabled={!formState.isValid}>DODAJ POST</Button>
             </form>
     )
 };
