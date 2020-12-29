@@ -31,7 +31,7 @@
 
 .post-item__actions {
   padding: 1rem;
-  text-align: center;
+  text-align:right;
   border-top: 1px solid #ccc;
 }
 

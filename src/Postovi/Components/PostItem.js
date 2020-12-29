@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Card from '../../Shared/Components/UIElements/Card';
+import Button from '../../Shared/Components/FormElements/Button';
 import './PostItem.css';
 
 const PostItem = props => {
@@ -15,8 +16,8 @@ const PostItem = props => {
           <p>{props.description}</p>
         </div>
         <div className="post-item__actions">
-          <button>EDIT</button>
-          <button>DELETE</button>
+          <Button  to={`/postovi/${props.id}`}>EDIT</Button>
+          <Button danger>DELETE</Button>
         </div>
       </Card>
     </li>
