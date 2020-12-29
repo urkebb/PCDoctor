@@ -4,6 +4,7 @@ import Korisnici from './Korisnici/Pages/Korisnici';
 import NoviPost from './Postovi/Pages/NoviPost';
 import KorisnikPosts from './Postovi/Pages/KorisnikPosts'
 import MainNavigation from './Shared/Components/Navigation/MainNavigation';
+import UpdatePost from './Postovi/Pages/UpdatePost';
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
     </Route>
     <Route path="/post/new" exact>
       <NoviPost />
+    </Route>
+    <Route path="/postovi/:postId" exact>
+      <UpdatePost />
     </Route>
     <Redirect to="/" />
     </Switch>
