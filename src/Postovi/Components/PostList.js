@@ -2,15 +2,16 @@ import React from 'react';
 
 import Card from '../../Shared/Components/UIElements/Card';
 import PostItem from './PostItem';
+import Button from '../../Shared/Components/FormElements/Button';
 import './PostList.css';
 
 const PostList = props => {
   if (props.items.length === 0) {
     return (
       <div className="post-list center">
-        <Card>
+        <Card className="card-c">
           <h2>No posts found. Maybe create one?</h2>
-          <button>Share post</button>
+          <Button to="/post/new">Share post</Button>
         </Card>
       </div>
     );

@@ -1,0 +1,32 @@
+.authentication {
+    width:90%;
+    max-width:25rem;
+    margin:auto;
+    text-align: center;
+    padding-bottom: 1rem;
+}
+.authentication__header{
+    color:white;
+    text-align: center;
+}
+
+.authentication form {
+    margin-bottom: 1rem;
+}
+
+#email{
+    width: 20rem;
+    margin: auto;
+}
+#password{
+    width: 20rem;
+    margin: auto;
+}
+#name{
+    width: 20rem;
+    margin: auto;
+}
+.login{
+    margin: 1rem;
+}
+
