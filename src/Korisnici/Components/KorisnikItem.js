@@ -19,6 +19,7 @@ const KorisnikItem = props => {
                     <h3>
                       {props.postsCount} {props.postsCount === 1 ? 'Post' : 'Posta'}
                     </h3>
+                    
                 </div>
                       </Link> 
                 </Card>

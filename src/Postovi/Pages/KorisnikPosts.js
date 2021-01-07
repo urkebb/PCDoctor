@@ -8,6 +8,7 @@ const DUMMY_POSTS = [
     id: 'p1',
     title: 'Empire State Building',
     description: 'One of the most famous sky scrapers in the world!',
+    like: 2,
     imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
     creator: 'u1'
   },
@@ -15,6 +16,7 @@ const DUMMY_POSTS = [
     id: 'p2',
     title: 'Emp. State Building',
     description: 'One of the most famous sky scrapers in the world!',
+    like: 2,
     imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
     creator: 'u2'
   }

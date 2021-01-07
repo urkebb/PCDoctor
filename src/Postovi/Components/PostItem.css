@@ -30,9 +30,20 @@
 }
 
 .post-item__actions {
+ display: flex;
   padding: 1rem;
-  text-align:right;
+  justify-content: right;
   border-top: 1px solid #ccc;
+}
+
+.like{
+  display: flex;
+  width:30rem;
+  align-self: left;
+}
+.other{
+  display: flex;
+  justify-content: right;
 }
 
 .post-item__modal-content {
@@ -47,6 +58,8 @@
 .post-item__actions a {
   margin: 0.5rem;
 }
+
+
 
 @media (min-width: 768px) {
   .post-item__image {

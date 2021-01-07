@@ -26,6 +26,7 @@ const PostList = props => {
           image={post.imageUrl}
           title={post.title}
           description={post.description}
+          like={post.like}
           creatorId={post.creator}
         />
       ))}
