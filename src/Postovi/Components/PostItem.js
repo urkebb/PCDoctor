@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 
 import Card from '../../Shared/Components/UIElements/Card';
 import Button from '../../Shared/Components/FormElements/Button';
+import {AuthContext} from '../../Shared/context/auth-context';
 import './PostItem.css';
 
 const PostItem = props => {
+  const auth = useContext(AuthContext);
   return (
     <li className="post-item">
       <Card className="post-item__content">
@@ -16,8 +18,12 @@ const PostItem = props => {
           <p>{props.description}</p>
         </div>
         <div className="post-item__actions">
+          {auth.isLoggedIn && (
           <Button  to={`/postovi/${props.id}`}>EDIT</Button>
+          )}
+          {auth.isLoggedIn && (
           <Button danger>DELETE</Button>
+          )}
         </div>
       </Card>
     </li>

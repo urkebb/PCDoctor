@@ -1,88 +1,108 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import Card from '../../Shared/Components/UIElements/Card';
 import Input from '../../Shared/Components/FormElements/Input';
 import Button from '../../Shared/Components/FormElements/Button';
 import {
-    VALIDATOR_EMAIL,
-    VALIDATOR_MINLENGTH,
-    VALIDATOR_REQUIRE
+  VALIDATOR_EMAIL,
+  VALIDATOR_MINLENGTH,
+  VALIDATOR_REQUIRE
 } from '../../Shared/util/validators';
 import { useForm } from '../../Shared/hooks/form-hook';
+import {AuthContext} from '../../Shared/context/auth-context';
 import './Auth.css';
 
 const Auth = () => {
-    const [isLoginMode, setIsLoginMode] = useState(true);
+    const auth = useContext (AuthContext);
+  const [isLoginMode, setIsLoginMode] = useState(true);
 
-    const [formState, inputHandler, setFormData] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      email: {
+        value: '',
+        isValid: false
+      },
+      password: {
+        value: '',
+        isValid: false
+      }
+    },
+    false
+  );
+
+  const switchModeHandler = () => {
+    if (!isLoginMode) {
+      setFormData(
         {
-            email: {
-                value: '',
-                isValid: false
-            },
-            password: {
-                value: '',
-                isValid: false
-            }
+          ...formState.inputs,
+          name: undefined
+        },
+        formState.inputs.email.isValid && formState.inputs.password.isValid
+      );
+    } else {
+      setFormData(
+        {
+          ...formState.inputs,
+          name: {
+            value: '',
+            isValid: false
+          }
         },
         false
-    );
+      );
+    }
+    setIsLoginMode(prevMode => !prevMode);
+  };
 
-    const switchModeHandler = () => {
+  const authSubmitHandler = event => {
+    event.preventDefault();
+    console.log(formState.inputs);
+    auth.login();
+  };
 
-        setIsLoginMode(prevMode => !prevMode);
-    };
-
-    const authSubmitHandler = event => {
-        event.preventDefault();
-        console.log(formState.inputs);
-    };
-
-
-
-
-
-    return (
-        <Card className="authentication">
-            <h2>Zahteva se prijava</h2>
-            <hr />
-            <form onSubmit={authSubmitHandler} className="login">
-                {!isLoginMode &&
-                    <Input
-                        element="input"
-                        id="name"
-                        type="text"
-                        placeholder="Ime"
-                        validators={[VALIDATOR_REQUIRE]}
-                        errorText="Unesite vase ime"
-                        onInput={inputHandler}
-                    />}
-                <Input element="input"
-                    id="email"
-                    type="email"
-                    placeholder="e-mail"
-                    validators={[VALIDATOR_EMAIL()]}
-                    errorText="Unesite validnu E-Mail adresu"
-                    onInput={inputHandler}
-                />
-                <Input element="input"
-                    id="password"
-                    type="password"
-                    placeholder="password"
-                    validators={[VALIDATOR_MINLENGTH(5)]}
-                    errorText="Unesite validnu sifru, minimum 5 karaktera"
-                    onInput={inputHandler}
-                />
-                <Button type="submit" disabled={!formState.isValid}>
-                    {isLoginMode ? 'ULOGUJ SE' : 'REGISTRUJ SE'}
-                </Button>
-            </form>
-          
-        {isLoginMode &&
-                <Button inverse onClick={switchModeHandler}>PREDJITE NA {isLoginMode ? 'REGISTRACIJU' : 'LOGOVANJE'}</Button>
-        }
-        </Card>
-    );
+  return (
+    <Card className="authentication">
+      <h2>Zahteva se logovanje</h2>
+      <hr />
+      <form onSubmit={authSubmitHandler}>
+        {!isLoginMode && (
+          <Input
+            element="input"
+            id="name"
+            type="text"
+           placeholder="Ime"
+            validators={[VALIDATOR_REQUIRE()]}
+            errorText="Please enter a name."
+            onInput={inputHandler}
+          />
+        )}
+        <Input
+          element="input"
+          id="email"
+          type="email"
+          placeholder="E-Mail"
+          validators={[VALIDATOR_EMAIL()]}
+          errorText="Please enter a valid email address."
+          onInput={inputHandler}
+        />
+        <Input
+          element="input"
+          id="password"
+          type="password"
+          placeholder="Password"
+          validators={[VALIDATOR_MINLENGTH(5)]}
+          errorText="Please enter a valid password, at least 5 characters."
+          onInput={inputHandler}
+        />
+        <Button type="submit" disabled={!formState.isValid}>
+          {isLoginMode ? 'LOGIN' : 'SIGNUP'}
+        </Button>
+      </form>
+      <Button inverse onClick={switchModeHandler}>
+        SWITCH TO {isLoginMode ? 'SIGN UP' : 'LOGIN'}
+      </Button>
+    </Card>
+  );
 };
 
 export default Auth;

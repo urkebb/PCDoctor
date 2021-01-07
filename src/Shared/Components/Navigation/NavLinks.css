@@ -1,3 +1,4 @@
+
 .nav-links {
     list-style: none;
     margin: 0;
@@ -63,15 +64,26 @@
     }
   
     .nav-links button {
-      border: 1px solid white;
+      border: 0px solid white;
       color: white;
       background: transparent;
     }
     
     .nav-links button:hover,
     .nav-links button:active {
-      background: #df950c;
-      color: #292929;
+      border: 1px solid black;
+      background: #830000;
+      color: white;
     }
-  }
+ 
   
+  }
+  .logout{
+    background: #830000;
+  border-color: #830000;
+  }
+
+
+
+  
+
