@@ -9,13 +9,14 @@ import {
   VALIDATOR_REQUIRE
 } from '../../Shared/util/validators';
 import { useForm } from '../../Shared/hooks/form-hook';
-import {AuthContext} from '../../Shared/context/auth-context';
+import { AuthContext } from '../../Shared/context/auth-context';
 import './Auth.css';
 
 const Auth = () => {
-    const auth = useContext (AuthContext);
+  const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
-
+  const [isLoading,setIsLoading]= useState(false);
+  const [error,setError]= useState();
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
@@ -54,9 +55,36 @@ const Auth = () => {
     setIsLoginMode(prevMode => !prevMode);
   };
 
-  const authSubmitHandler = event => {
+  const authSubmitHandler = async event => {
     event.preventDefault();
-    console.log(formState.inputs);
+
+    if (isLoginMode) {
+
+    } else {
+
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/users/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+          
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value
+          })
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+      }
+      catch (err) {
+        console.log(err);
+      }
+
+    }
+
     auth.login();
   };
 
@@ -70,7 +98,7 @@ const Auth = () => {
             element="input"
             id="name"
             type="text"
-           placeholder="Ime"
+            placeholder="Ime"
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a name."
             onInput={inputHandler}
