@@ -9,14 +9,16 @@ import {
   VALIDATOR_REQUIRE
 } from '../../Shared/util/validators';
 import { useForm } from '../../Shared/hooks/form-hook';
-import { AuthContext } from '../../Shared/context/auth-context';
+import {AuthContext} from '../../Shared/context/auth-context';
 import './Auth.css';
+import ImageUpload from "../../Shared/Components/FormElements/ImageUpload";
 
 const Auth = () => {
-  const auth = useContext(AuthContext);
+    const auth = useContext (AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [isLoading,setIsLoading]= useState(false);
   const [error,setError]= useState();
+
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
@@ -36,7 +38,8 @@ const Auth = () => {
       setFormData(
         {
           ...formState.inputs,
-          name: undefined
+          name: undefined,
+          image: undefined
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -47,6 +50,10 @@ const Auth = () => {
           name: {
             value: '',
             isValid: false
+          },
+          image:{
+            value: null,
+            isValid: false
           }
         },
         false
@@ -56,6 +63,7 @@ const Auth = () => {
   };
 
   const authSubmitHandler = async event => {
+  const authSubmitHandler = event => {
     event.preventDefault();
 
     if (isLoginMode) {
@@ -85,13 +93,14 @@ const Auth = () => {
 
     }
 
+    console.log(formState.inputs);
     auth.login();
   };
 
   return (
     <Card className="authentication">
       <h2>Zahteva se logovanje</h2>
-      <hr />
+      <hr /> 
       <form onSubmit={authSubmitHandler}>
         {!isLoginMode && (
           <Input
@@ -104,6 +113,7 @@ const Auth = () => {
             onInput={inputHandler}
           />
         )}
+        {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler}/>}
         <Input
           element="input"
           id="email"
