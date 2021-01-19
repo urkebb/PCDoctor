@@ -63,7 +63,6 @@ const Auth = () => {
   };
 
   const authSubmitHandler = async event => {
-  const authSubmitHandler = event => {
     event.preventDefault();
 
     if (isLoginMode) {
