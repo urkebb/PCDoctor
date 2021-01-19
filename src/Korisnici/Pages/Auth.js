@@ -9,15 +9,15 @@ import {
   VALIDATOR_REQUIRE
 } from '../../Shared/util/validators';
 import { useForm } from '../../Shared/hooks/form-hook';
-import {AuthContext} from '../../Shared/context/auth-context';
+import { AuthContext } from '../../Shared/context/auth-context';
 import './Auth.css';
 import ImageUpload from "../../Shared/Components/FormElements/ImageUpload";
 
 const Auth = () => {
-    const auth = useContext (AuthContext);
+  const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [isLoading,setIsLoading]= useState(false);
-  const [error,setError]= useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -51,7 +51,7 @@ const Auth = () => {
             value: '',
             isValid: false
           },
-          image:{
+          image: {
             value: null,
             isValid: false
           }
@@ -63,10 +63,30 @@ const Auth = () => {
   };
 
   const authSubmitHandler = async event => {
-  const authSubmitHandler = event => {
+
     event.preventDefault();
 
     if (isLoginMode) {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            
+
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value
+          })
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+      }
+      catch (err) {
+        console.log(err);
+      }
 
     } else {
 
@@ -79,7 +99,7 @@ const Auth = () => {
           },
           body: JSON.stringify({
             name: formState.inputs.name.value,
-        
+
             email: formState.inputs.email.value,
             password: formState.inputs.password.value
           })
@@ -100,7 +120,7 @@ const Auth = () => {
   return (
     <Card className="authentication">
       <h2>Zahteva se logovanje</h2>
-      <hr /> 
+      <hr />
       <form onSubmit={authSubmitHandler}>
         {!isLoginMode && (
           <Input
@@ -113,7 +133,7 @@ const Auth = () => {
             onInput={inputHandler}
           />
         )}
-        {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler}/>}
+        {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />}
         <Input
           element="input"
           id="email"
