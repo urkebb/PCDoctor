@@ -19,7 +19,7 @@ const KorisnikList = props => {
           id={korisnik.id}
           image={korisnik.image}
           name={korisnik.name}
-          postsCount={korisnik.posts}
+         // postsCount={korisnik.posts}
         />
       ))}
     </ul>
