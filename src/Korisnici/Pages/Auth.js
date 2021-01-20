@@ -15,6 +15,7 @@ import { AuthContext } from '../../Shared/context/auth-context';
 import './Auth.css';
 import ImageUpload from "../../Shared/Components/FormElements/ImageUpload";
 
+
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -70,24 +71,26 @@ const Auth = () => {
 
     if (isLoginMode) {
       try {
-       
+
+        //const { data } = await axios.get('http://localhost:5000/api/users');
+
         const response = await fetch('http://localhost:5000/api/users/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-
-
             email: formState.inputs.email.value,
             password: formState.inputs.password.value
           })
         });
         const responseData = await response.json();
-        if (!responseData.ok) {
+        console.log(responseData);
+
+        if (!(responseData.message === 'uspesno si se logovao')) {
           throw new Error(responseData.message);
         }
-        
+
         setIsLoading(false);
         auth.login();
       }
@@ -113,9 +116,22 @@ const Auth = () => {
           })
         });
         const responseData = await response.json();
-        
-        setIsLoading(false);
-        auth.login();
+        console.log(responseData.message);
+
+        if (responseData.message === 'Pronadjen je korisnik sa ovim e-mailom') {
+          setIsLoading(false);
+          console.log(responseData.message);
+
+          // console.log('PUKO SAM');
+          //setIsLoading(false);
+          //return;
+        }
+        else {
+          console.log('UPAO SAM');
+          setIsLoading(false);
+          auth.login();
+        }
+
       }
       catch (err) {
 
@@ -131,8 +147,8 @@ const Auth = () => {
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={errorHandler}/>
-      
+      <ErrorModal error={error} onClear={errorHandler} />
+
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Zahteva se logovanje</h2>
