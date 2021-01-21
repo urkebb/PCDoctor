@@ -78,27 +78,27 @@ const Auth = () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
+            body: JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value
           })
         });
+
         const responseData = await response.json();
         console.log(responseData.message);
 
         if (!(responseData.message === 'uspesno si se logovao')) {
           throw new Error(responseData.message);
         }
-
+        console.log(responseData);
         setIsLoading(false);
-        auth.login();
+        auth.login(responseData.id);
       }
       catch (err) {
         setIsLoading(false);
         console.log(err.message);
         setError(err);
       }
-
     } else {
 
       try {
@@ -110,7 +110,6 @@ const Auth = () => {
           },
           body: JSON.stringify({
             name: formState.inputs.name.value,
-
             email: formState.inputs.email.value,
             password: formState.inputs.password.value
           })
@@ -124,9 +123,11 @@ const Auth = () => {
         }
 
         else {
-
+          console.log(responseData.id);
           setIsLoading(false);
-          auth.login();
+        
+          auth.login(responseData.id);
+         
         }
 
       }
@@ -143,8 +144,6 @@ const Auth = () => {
 
   return (
     <React.Fragment>
-
-
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Zahteva se logovanje</h2>
