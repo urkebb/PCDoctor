@@ -71,8 +71,7 @@ const Auth = () => {
 
     if (isLoginMode) {
       try {
-
-        //const { data } = await axios.get('http://localhost:5000/api/users');
+        setIsLoading(true);
 
         const response = await fetch('http://localhost:5000/api/users/login', {
           method: 'POST',
@@ -85,7 +84,7 @@ const Auth = () => {
           })
         });
         const responseData = await response.json();
-        console.log(responseData);
+        console.log(responseData.message);
 
         if (!(responseData.message === 'uspesno si se logovao')) {
           throw new Error(responseData.message);
@@ -95,8 +94,9 @@ const Auth = () => {
         auth.login();
       }
       catch (err) {
-        console.log(err);
         setIsLoading(false);
+        console.log(err.message);
+        setError(err);
       }
 
     } else {
@@ -118,25 +118,21 @@ const Auth = () => {
         const responseData = await response.json();
         console.log(responseData.message);
 
-        if (responseData.message === 'Pronadjen je korisnik sa ovim e-mailom') {
-          setIsLoading(false);
-          console.log(responseData.message);
 
-          // console.log('PUKO SAM');
-          //setIsLoading(false);
-          //return;
+        if (!(responseData.message === 'registrovali ste se')) {
+          throw new Error(responseData.message);
         }
+
         else {
-          console.log('UPAO SAM');
+
           setIsLoading(false);
           auth.login();
         }
 
       }
       catch (err) {
-
         setIsLoading(false);
-        setError(err.message || 'Nesto nije u redu, molimo pokusajte ponovo');
+        setError(err);
       }
     }
   };
@@ -147,11 +143,12 @@ const Auth = () => {
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={errorHandler} />
+
 
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Zahteva se logovanje</h2>
+        <p className="error"> {error && error.message} </p>
         <hr />
         <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (
