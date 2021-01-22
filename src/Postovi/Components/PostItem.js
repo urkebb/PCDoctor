@@ -20,14 +20,13 @@ const PostItem = props => {
     };
   };
 
-    const [num, setNum] = useState(props.like);
+    const [num, setNum] = useState(props.likes);
 
     const incNum = () => {
 
       setNum(num + 1);
     };
     const decNum = () => {
-
       setNum(num - 1);
     };
 

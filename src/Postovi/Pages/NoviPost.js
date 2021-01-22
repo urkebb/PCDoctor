@@ -14,6 +14,7 @@ const NoviPost = () => {
     const auth = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
+    const [postCreated,setPostCreated]=useState(false);
 
     const [formState, inputHandler] = useForm({
         title: {
@@ -55,7 +56,7 @@ const NoviPost = () => {
             }
 
             else {
-                console.log(responseData.id);
+                setPostCreated(true);
                 setIsLoading(false);
             }
 
@@ -74,6 +75,8 @@ const NoviPost = () => {
         <form className="post-form" onSubmit={placeSubmitHandler}>
             {isLoading && <LoadingSpinner asOverlay />}
             <p className="error"> {error && error.message} </p>
+            <p className="postCreated"> {postCreated && 'Post je napravljen'} </p>
+
             <Input
                 id="title"
                 element="input"
@@ -93,7 +96,7 @@ const NoviPost = () => {
                 onInput={inputHandler}
             />
 
-            <NavLink to="../../u1/postovi" exact><Button type="submit" disabled={!formState.isValid}>DODAJ POST</Button></NavLink>
+             <Button type="submit" disabled={!formState.isValid}>DODAJ POST</Button>
         </form>
 
     )

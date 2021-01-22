@@ -1,31 +1,59 @@
-import React from 'react';
-import {useParams} from 'react-router-dom';
-
+import React, { useState, useEffect,useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import LoadingSpinner from '../../Shared/Components/UIElements/LoadingSpinner';
 import PostList from '../Components/PostList';
+import { AuthContext } from '../../Shared/context/auth-context';
 
-const DUMMY_POSTS = [
-  {
-    id: 'p1',
-    title: 'Empire State Building',
-    description: 'One of the most famous sky scrapers in the world!',
-    like: 2,
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
-    creator: 'u1'
-  },
-  {
-    id: 'p2',
-    title: 'Emp. State Building',
-    description: 'One of the most famous sky scrapers in the world!',
-    like: 2,
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg',
-    creator: 'u2'
-  }
-];
+
 
 const KorisnikPosts = () => {
-  const korisnikId = useParams().korisnikId;
-  const loadedPosts=DUMMY_POSTS.filter(post => post.creator === korisnikId); 
-  return <PostList items={loadedPosts} />;
+  const auth = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+  let [loadedPosts, setLoadedPosts] = useState();
+
+  const korisnikId = auth.userId;
+
+  useEffect(() => {
+    const sendRequest = async () => {
+      setIsLoading(true);
+      try {
+        console.log(korisnikId);
+        const { data } = await axios.get(`http://localhost:5000/api/posts/user/${korisnikId}`);
+
+        setLoadedPosts(data.post);
+
+      }
+      catch (err) {
+        setIsLoading(false);
+        setError(err.message);
+      }
+
+
+      setIsLoading(false);
+
+    };
+    sendRequest();
+  }, [ korisnikId]);
+
+  const errorHandler = () => {
+    setError(null);
+  };
+
+
+
+  return (
+    <React.Fragment>
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+
+     {!isLoading && loadedPosts && <PostList items={loadedPosts} />}
+    </React.Fragment>
+  )
 };
 
 export default KorisnikPosts;

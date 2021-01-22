@@ -21,12 +21,12 @@ const PostList = props => {
     <ul className="post-list">
       {props.items.map(post => (
         <PostItem
-          key={post.id}
-          id={post.id}
-          image={post.imageUrl}
+          key={post.postid}
+          id={post.postid}
+          image={post.image}
           title={post.title}
           description={post.description}
-          like={post.like}
+          likes={post.likes}
           creatorId={post.creator}
         />
       ))}

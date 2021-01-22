@@ -11,6 +11,11 @@
 
   .error{
     color:red;
+    font-size: larger;
 }
 
+.postCreated{
+  color:green;
+  font-size: larger;
+}
   
