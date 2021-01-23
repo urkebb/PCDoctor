@@ -22,6 +22,7 @@ const UpdatePost = () => {
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const history= useHistory();
+  const [isUpdated,setIsUpdated]=useState(false);
 
   const [formState, inputHandler, setFormData] = useForm({
     title: {
@@ -43,8 +44,7 @@ const UpdatePost = () => {
         console.log(post);
 
         setLoadedPost(data.post[0]);
-        console.log(data.post[0]);
-        console.log(loadedPost);
+        
         setIsLoading(false);
         setFormData(
           {
@@ -96,6 +96,7 @@ const UpdatePost = () => {
   const postUpdateSubmitHandler = async event => {
     event.preventDefault();
     try {
+      
       const response = await fetch(`http://localhost:5000/api/posts/${post}`, {
         method: 'PATCH',
         headers: {
@@ -108,15 +109,16 @@ const UpdatePost = () => {
       });
 
       const responseData = await response.json();
-        console.log(responseData.message);
+      
 
         if (!(responseData.message === 'Updateovan je post')) {
           throw new Error(responseData.message);
         }
-        console.log(responseData);
-        setIsLoading(false);
-        auth.login(responseData.id);
 
+       
+          setIsLoading(false);
+          setIsUpdated(true); 
+          auth.login(responseData.id);
     }
     catch(err){
       setIsLoading(false);
@@ -142,6 +144,9 @@ const UpdatePost = () => {
       { !isLoading && loadedPost && (
         <form className="post-form" onSubmit={postUpdateSubmitHandler}>
           {error && <p className="error">{error.message}</p>}
+          {isUpdated && 
+          <p className="postCreated">Update je prosao bez gresaka</p>
+          }
           <Input
             id="title"
             element="input"

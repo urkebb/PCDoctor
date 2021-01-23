@@ -19,7 +19,7 @@ const KorisnikPosts = () => {
     const sendRequest = async () => {
       setIsLoading(true);
       try {
-        console.log(korisnikId);
+        console.log(korisnikId + ' ovo je korisnikov ID');
         const { data } = await axios.get(`http://localhost:5000/api/posts/user/${korisnikId}`);
 
         setLoadedPosts(data.post);
@@ -41,6 +41,10 @@ const KorisnikPosts = () => {
     setError(null);
   };
 
+  const postDeletedHandler = (deletedPostId) =>{
+    setLoadedPosts(prevPosts=>
+      prevPosts.filter(post => post.id !== deletedPostId));
+  };
 
 
   return (
@@ -51,7 +55,7 @@ const KorisnikPosts = () => {
         </div>
       )}
 
-     {!isLoading && loadedPosts && <PostList items={loadedPosts} />}
+     {!isLoading && loadedPosts && <PostList items={loadedPosts} onDeletePost={postDeletedHandler} />}
     </React.Fragment>
   )
 };

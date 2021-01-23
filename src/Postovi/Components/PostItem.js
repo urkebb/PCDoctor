@@ -3,12 +3,15 @@ import React, { useState, useContext } from 'react';
 import Card from '../../Shared/Components/UIElements/Card';
 import Button from '../../Shared/Components/FormElements/Button';
 import { AuthContext } from '../../Shared/context/auth-context';
+import LoadingSpinner from '../../Shared/Components/UIElements/LoadingSpinner';
 import './PostItem.css';
 
 const PostItem = props => {
   const auth = useContext(AuthContext);
 
   const [isClicked, setIsClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
   const switchMode = () => {
     if (!isClicked) {
@@ -28,6 +31,36 @@ const PostItem = props => {
     };
     const decNum = () => {
       setNum(num - 1);
+    };
+
+    const confirmDeleteHandler = async () => {
+      try{
+        setIsLoading(true);
+        const response = await fetch(`http://localhost:5000/api/posts/${props.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+  
+        const responseData = await response.json();
+        
+  
+          if (!(responseData.message === 'Obrisan je post')) {
+            throw new Error(responseData.message);
+          }
+
+          else{
+            props.onDelete(props.id);
+            setIsLoading(false);
+          }
+      }
+
+      catch(err){
+        setIsLoading(false);
+            setError(err);
+      }
+   
     };
 
 

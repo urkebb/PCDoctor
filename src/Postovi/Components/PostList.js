@@ -28,6 +28,7 @@ const PostList = props => {
           description={post.description}
           likes={post.likes}
           creatorId={post.creator}
+          onDelete={props.onDeletePost}
         />
       ))}
     </ul>
