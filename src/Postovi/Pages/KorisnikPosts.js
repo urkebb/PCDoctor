@@ -41,10 +41,35 @@ const KorisnikPosts = () => {
     setError(null);
   };
 
-  const postDeletedHandler = (deletedPostId) =>{
-    setLoadedPosts(prevPosts=>
-      prevPosts.filter(post => post.id !== deletedPostId));
-  };
+  /*const postDeletedHandler = deletedPostId => {
+    setLoadedPosts(prevPosts =>
+      prevPosts.filter(
+        post =>
+        post.id !== deletedPostId)
+    );
+  };*/
+
+
+    const postDeletedHandler = async () => {
+      setIsLoading(true);
+      try {
+        console.log(korisnikId + ' ovo je korisnikov ID');
+        const { data } = await axios.get(`http://localhost:5000/api/posts/user/${korisnikId}`);
+
+        setLoadedPosts(data.post);
+
+      }
+      catch (err) {
+        setIsLoading(false);
+        setError(err.message);
+      }
+
+
+      setIsLoading(false);
+
+    };
+ 
+  
 
 
   return (
