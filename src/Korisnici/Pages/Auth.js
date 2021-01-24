@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext,useRef  } from 'react';
 
 import Card from '../../Shared/Components/UIElements/Card';
 import Input from '../../Shared/Components/FormElements/Input';
@@ -21,6 +21,7 @@ const Auth = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+  const form = useRef(null)
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -105,13 +106,24 @@ const Auth = () => {
       try {
         setIsLoading(true);
         const formData = new FormData();
-        formData.append('email',formState.inputs.email.value);
+       
         formData.append('name',formState.inputs.name.value);
+        formData.append('email',formState.inputs.email.value);
         formData.append('password',formState.inputs.password.value);
         formData.append('image',formState.inputs.image.value);
+        console.log(formData);
         const response = await fetch('http://localhost:5000/api/users/signup', {
           method: 'POST',
-          formData  
+         // headers: {
+         //     'Content-Type': 'application/json'
+         // },
+          body:formData,
+           /* body: JSON.stringify({
+              name: formState.inputs.name.value,
+              email: formState.inputs.email.value,
+              password: formState.inputs.password.value,
+              image:formState.inputs.image.value
+          })*/
         });
         const responseData = await response.json();
         console.log(responseData.message);
@@ -160,7 +172,10 @@ const Auth = () => {
               onInput={inputHandler}
             />
           )}
+
           {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />}
+
+          
           <Input
             element="input"
             id="email"
@@ -170,6 +185,7 @@ const Auth = () => {
             errorText="Please enter a valid email address."
             onInput={inputHandler}
           />
+
           <Input
             element="input"
             id="password"
