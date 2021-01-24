@@ -66,6 +66,7 @@ const Auth = () => {
   };
 
   const authSubmitHandler = async event => {
+    console.log(formState.inputs);
     event.preventDefault();
     setIsLoading(true);
 
@@ -103,16 +104,14 @@ const Auth = () => {
 
       try {
         setIsLoading(true);
+        const formData = new FormData();
+        formData.append('email',formState.inputs.email.value);
+        formData.append('name',formState.inputs.name.value);
+        formData.append('password',formState.inputs.password.value);
+        formData.append('image',formState.inputs.image.value);
         const response = await fetch('http://localhost:5000/api/users/signup', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value
-          })
+          formData  
         });
         const responseData = await response.json();
         console.log(responseData.message);
