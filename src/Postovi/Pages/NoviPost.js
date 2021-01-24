@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import LoadingSpinner from '../../Shared/Components/UIElements/LoadingSpinner';
 import { NavLink } from 'react-router-dom';
+import ImageUpload from "../../Shared/Components/FormElements/ImageUpload";
 import Input from '../../Shared/Components/FormElements/Input';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../Shared/util/validators';
 import Button from '../../Shared/Components/FormElements/Button';
@@ -24,6 +25,10 @@ const NoviPost = () => {
         description: {
             value: '',
             isValid: false
+        },
+        image:{
+            value:null,
+            isValid:false
         }
     }, false);
 
@@ -35,17 +40,14 @@ const NoviPost = () => {
         try {
 
             setIsLoading(true);
-
+            const formData = new FormData();
+            formData.append('title',formState.inputs.title.value);
+            formData.append('description',formState.inputs.description.value);
+            formData.append('creator',auth.userId);
+            formData.append('image',formState.inputs.image.value);
             const response = await fetch('http://localhost:5000/api/posts', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    title: formState.inputs.title.value,
-                    description: formState.inputs.description.value,
-                    creator: auth.userId
-                })
+                body:formData,
             });
 
             const responseData = await response.json();
@@ -95,6 +97,7 @@ const NoviPost = () => {
                 errorText="Unesite opis od najmanje 5 karaktera."
                 onInput={inputHandler}
             />
+             <ImageUpload id="image" onInput={inputHandler} errorText="Moilimo izaberite sliku"/>
 
              <Button type="submit" disabled={!formState.isValid}>DODAJ POST</Button>
         </form>
