@@ -15,8 +15,8 @@ const KorisnikList = props => {
     <ul className="users-list">
       {props.items.map(korisnik => (
         <KorisnikItem
-          key={korisnik.id}
-          id={korisnik.id}
+          key={korisnik.userid}
+          id={korisnik.userid}
           image={korisnik.image}
           name={korisnik.name}
          // postsCount={korisnik.posts}

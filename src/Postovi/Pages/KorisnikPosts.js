@@ -13,14 +13,16 @@ const KorisnikPosts = () => {
   const [error, setError] = useState();
   let [loadedPosts, setLoadedPosts] = useState();
 
+  const userID = useParams().korisnikId;
   const korisnikId = auth.userId;
+  
 
   useEffect(() => {
     const sendRequest = async () => {
       setIsLoading(true);
       try {
-        console.log(korisnikId + ' ovo je korisnikov ID');
-        const { data } = await axios.get(`http://localhost:5000/api/posts/user/${korisnikId}`);
+        console.log(userID + ' ovo je korisnikov ID');
+        const { data } = await axios.get(`http://localhost:5000/api/posts/user/${userID}`);
 
         setLoadedPosts(data.post);
 

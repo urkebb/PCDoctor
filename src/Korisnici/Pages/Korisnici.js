@@ -17,9 +17,10 @@ const Korisnici = () => {
       try {
        
         const { data } = await axios.get('http://localhost:5000/api/users');
-        
+        console.log(data.users["userid"]);
+        console.log(data.users);
         setLoadedUsers(data.users);
-
+       
       }
       catch (err) {
 
